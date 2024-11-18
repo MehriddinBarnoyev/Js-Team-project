@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unique Login Page</title>
+    <script src="index.js" defer></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            transition: background 0.5s ease;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-bottom: 2px solid #ddd;
+            background-color: transparent;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #999;
+            font-size: 16px;
+            pointer-events: none;
+            transition: 0.3s ease all;
+        }
+
+        .input-group input:focus ~ label,
+        .input-group input:not(:placeholder-shown) ~ label {
+            top: -20px;
+            font-size: 12px;
+            color: #4ecdc4;
+        }
+
+        .input-group input:focus {
+            border-color: #4ecdc4;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4ecdc4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .login-btn:hover {
+            background-color: #45b7aa;
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(78, 205, 196, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(78, 205, 196, 0);
+            }
+        }
+
+        .login-btn.pulse {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Welcome Back</h1>
+        <form id="login-form">
+            <div class="input-group">
+                <input type="text" id="username" required placeholder=" ">
+                <label for="username">Username</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" required placeholder=" ">
+                <label for="password">Password</label>
+                <span class="password-toggle" id="password-toggle">👁️</span>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+
+    
+</body>
+</html>
