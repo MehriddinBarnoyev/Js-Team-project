@@ -116,7 +116,6 @@ const users = [
     ],
   },
 ];
-
 const usernameGroup = document.getElementById("username-group");
 const passwordGroup = document.getElementById("password-group");
 const usernameInput = document.getElementById("username");
@@ -171,14 +170,12 @@ nextBtn.addEventListener("click", () => {
   }
 });
 
-
 passwordToggle.addEventListener("click", () => {
   const type =
     passwordInput.getAttribute("type") === "password" ? "text" : "password";
   passwordInput.setAttribute("type", type);
   passwordToggle.textContent = type === "password" ? "👁️" : "👁️‍🗨️";
 });
-
 function updateProgress() {
   progressSteps.forEach((step, index) => {
     if (index < currentStep) {
@@ -195,17 +192,33 @@ function showError(message) {
     errorMessage.textContent = "";
   }, 3000);
 }
-
 function simulateLogin() {
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
+
+  console.log(5412);
+  
   setTimeout(() => {
     nextBtn.classList.remove("pulse");
-    showError("Login successful!");
-    localStorage.setItem("username", username);
-    localStorage.setItem("password", password);
-    // In a real application, you would handle the login process here
-    window.location.href = "gallery.html";
+
+    const user = users.find(
+      (u) => u.username === username && u.password === password
+    );
+    console.log(user);
+    
+
+    if (user) {
+      // localStorage.setItem("username", username);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Ob'ektni qaytarish
+      console.log("Login successful! User data:", user);
+
+      // Sahifa keyin yuklanadi
+      setTimeout(() => (window.location.href = "gallery.html"), 5000);
+    } else {
+      showError("Invalid username or password");
+    }
   }, 1500);
 }
 
