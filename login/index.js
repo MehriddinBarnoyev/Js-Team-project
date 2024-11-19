@@ -228,3 +228,10 @@ document.addEventListener("mousemove", (e) => {
           )
       `;
 });
+
+const keyUp = (e) => {
+  if (e.key === "Enter") {
+    console.log(e.key);
+    
+  }
+}
