@@ -127,6 +127,8 @@ const errorMessage = document.getElementById("error-message");
 
 let currentStep = 1;
 
+localStorage.setItem("users", JSON.stringify(users));
+
 nextBtn.addEventListener("click", () => {
   if (currentStep === 1) {
     // Foydalanuvchining username-ni tekshirish

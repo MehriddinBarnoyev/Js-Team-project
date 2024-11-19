@@ -14,3 +14,7 @@ if (userData) {
 } else {
   console.log("Foydalanuvchi ma'lumotlari topilmadi!");
 }
+
+const allPhotoLink = () =>{
+  window.location.href = "allPhotos.html";
+}
