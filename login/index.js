@@ -190,14 +190,11 @@ function showError(message) {
   errorMessage.textContent = message;
   setTimeout(() => {
     errorMessage.textContent = "";
-  }, 3000);
+  }, 300);
 }
 function simulateLogin() {
   const username = usernameInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  console.log(5412);
-  
+  const password = passwordInput.value.trim();  
   setTimeout(() => {
     nextBtn.classList.remove("pulse");
 
@@ -219,7 +216,7 @@ function simulateLogin() {
     } else {
       showError("Invalid username or password");
     }
-  }, 1500);
+  }, 10);
 }
 
 // Dynamic background
