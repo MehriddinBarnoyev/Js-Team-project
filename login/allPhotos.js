@@ -41,3 +41,37 @@ if (users.length) {
 } else {
   container.innerHTML = "<p>No photos available</p>";
 }
+
+  // Rasm ustiga bosilganda kattalashtirish funksiyasi
+  const images = document.querySelectorAll('.card img');
+
+  images.forEach(image => {
+    image.addEventListener('click', function() {
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = 0;
+      overlay.style.left = 0;
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+      overlay.style.display = 'flex';
+      overlay.style.justifyContent = 'center';
+      overlay.style.alignItems = 'center';
+      overlay.style.zIndex = 1000;
+      overlay.style.cursor = 'zoom-out';
+
+      const enlargedImage = document.createElement('img');
+      enlargedImage.src = image.src;
+      enlargedImage.style.maxWidth = '90%';
+      enlargedImage.style.maxHeight = '90%';
+      enlargedImage.style.objectFit = 'contain'; // Kattalashtirishni saqlash
+
+      overlay.appendChild(enlargedImage);
+      document.body.appendChild(overlay);
+
+      // Overlay ustiga bosilganda uni yopish
+      overlay.addEventListener('click', function() {
+        document.body.removeChild(overlay);
+      });
+    });
+  });
