@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="style.css" />
     <script src="index.js" defer></script>
   </head>
-  <body>
+  <body onkeyup="keyUpHandler(e)">
     <div class="login-container">
-      <h1>Welcome Backkk</h1>
+      <h1>Welcome Back</h1>
       <div id="username-group" class="input-group">
         <input type="text" id="username" required placeholder=" " />
         <label for="username">Username</label>
@@ -19,7 +19,7 @@
         <label for="password">Password</label>
         <span class="password-toggle" id="password-toggle">👁️</span>
       </div>
-      <button id="next-btn" class="login-btn">Next ++ new fuchure</button>
+      <button id="next-btn" class="login-btn">Next</button>
       <div class="login-progress">
         <div class="progress-step active"></div>
         <div class="progress-step"></div>
@@ -27,7 +27,5 @@
       </div>
       <div id="error-message" class="error-message"></div>
     </div>
-
- 
   </body>
 </html>
