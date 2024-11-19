@@ -212,7 +212,7 @@ function simulateLogin() {
       console.log("Login successful! User data:", user);
 
       // Sahifa keyin yuklanadi
-      setTimeout(() => (window.location.href = "gallery.html"), 5000);
+      setTimeout(() => (window.location.href = "gallery.html"), 1);
     } else {
       showError("Invalid username or password");
     }
