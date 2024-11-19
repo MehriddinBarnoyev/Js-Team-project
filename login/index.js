@@ -134,7 +134,6 @@ nextBtn.addEventListener("click", () => {
       showError("Please enter a username");
       return;
     }
-
     const user = users.find((u) => u.username === usernameInput.value.trim());
     if (user) {
       usernameGroup.style.display = "none";
@@ -201,9 +200,6 @@ function simulateLogin() {
     const user = users.find(
       (u) => u.username === username && u.password === password
     );
-    console.log(user);
-    
-
     if (user) {
       // localStorage.setItem("username", username);
       localStorage.setItem("user", JSON.stringify(user));
@@ -212,7 +208,7 @@ function simulateLogin() {
       console.log("Login successful! User data:", user);
 
       // Sahifa keyin yuklanadi
-      setTimeout(() => (window.location.href = "gallery.html"), 5000);
+      setTimeout(() => (window.location.href = "gallery.html"), 1);
     } else {
       showError("Invalid username or password");
     }
