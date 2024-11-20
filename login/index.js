@@ -191,11 +191,11 @@ function showError(message) {
   errorMessage.textContent = message;
   setTimeout(() => {
     errorMessage.textContent = "";
-  }, 300);
+  }, 3000);
 }
 function simulateLogin() {
   const username = usernameInput.value.trim();
-  const password = passwordInput.value.trim();  
+  const password = passwordInput.value.trim();
   setTimeout(() => {
     nextBtn.classList.remove("pulse");
 
@@ -217,6 +217,8 @@ function simulateLogin() {
   }, 10);
 }
 
+
+
 // Dynamic background
 document.addEventListener("mousemove", (e) => {
   const x = e.clientX / window.innerWidth;
@@ -230,10 +232,3 @@ document.addEventListener("mousemove", (e) => {
           )
       `;
 });
-
-const keyUp = (e) => {
-  if (e.key === "Enter") {
-    console.log(e.key);
-    
-  }
-}

@@ -6,7 +6,10 @@ if (userData) {
 
   // Har bir rasm uchun <img> tegini yaratish
   const imagesHTML = userObject.photos
-    .map((photo) => `<img src="${photo.url.trim()}" alt="photo" width="200px" class="img-thumbnail shadow m-3" />`)
+    .map(
+      (photo) =>
+        `<img src="${photo.url.trim()}" alt="photo" width="200px" class="img-thumbnail shadow m-3" />`
+    )
     .join("");
   // Rasmni sahifaga joylash
   const container = document.getElementById("container");
@@ -15,6 +18,10 @@ if (userData) {
   console.log("Foydalanuvchi ma'lumotlari topilmadi!");
 }
 
-const allPhotoLink = () =>{
+const func = document.addEventListener("keyup", (event) => {
+  (event.key === "Enter" ? allPhotoLink() :null) 
+});
+
+const allPhotoLink = () => {
   window.location.href = "allPhotos.html";
-}
+};
