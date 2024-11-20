@@ -186,3 +186,16 @@ async function sendMessage(link) {
     console.log("Rasm linki kiritilmagan!");
   }
 }
+
+document.addEventListener("mousemove", (e) => {
+  const x = e.clientX / window.innerWidth;
+  const y = e.clientY / window.innerHeight;
+
+  document.body.style.background = `
+          linear-gradient(
+              ${45 + x * 90}deg,
+              hsl(${180 + y * 60}, 70%, 60%),
+              hsl(${360 + x * 60}, 70%, 60%)
+          )
+      `;
+});
