@@ -1,106 +1,32 @@
-/* Umumiy sahifa uslubi */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(30deg, rgb(100, 241, 84), rgb(92, 92, 229), rgb(111, 30, 30));
-  color: #262626;
+  min-height: 100vh;
+  transition: background 0.5s ease;
 }
-
-/* Sarlavha uslubi */
-h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin: 20px;
-  padding-left: 20px;
-}
-
-/* Konteyner */
-#container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive ustunlar */
-  gap: 20px;
-  padding: 20px;
-  justify-content: center;
-}
-
-/* Karta (Card) uslubi */
 .card {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
-
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
-
-/* Rasm uslubi */
-.card img {
-  width: 100%;
+.card-img-top {
   height: 200px;
-  object-fit: cover; /* Rasmlarni kesmasdan joylashtirish */
-  transition: transform 0.3s ease-in-out; /* Kattalashtirish uchun animatsiya */
+  object-fit: cover;
 }
-
-/* Hover holati */
-.card:hover img {
-  transform: scale(1.1); /* Kattalashtirish */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
 }
-
-/* Foydalanuvchi ismi sarlavhasi */
-h5 {
-  margin-top: 10px;
-  font-size: 1rem;
-  text-align: center;
-  color: #555;
-}
-
-/* Responsive: Kichik ekranlar uchun */
-@media (max-width: 768px) {
-  h1 {
-    text-align: center;
-    font-size: 1.5rem;
-  }
-
-  #container {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Rasmlar kichrayadi */
-    gap: 15px;
-  }
-
-  .card img {
-    height: 180px; /* Kichik ekranlar uchun balandlik moslashadi */
-  }
-}
-
-/* Responsive: Mobil ekranlar uchun */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 1.2rem;
-    padding-left: 0; /* Mobil ekranlarda sarlavhaga tashqi bo'shliqni olib tashlash */
-    text-align: center; /* Mobil uchun markazlashtirish */
-  }
-
-  #container {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Juda kichik ekranlar */
-    gap: 10px; /* Kichik ekranlar uchun bo'shliqni kamaytirish */
-    padding: 10px; /* Konteyner ichidagi bo'shliqni kamaytirish */
-  }
-
-  .card img {
-    height: 150px; /* Rasmni kichraytirish */
-  }
-
-  h5 {
-    font-size: 0.9rem; /* Kichik ekranlarda matn o‘lchamini kamaytirish */
-    padding: 0 10px; /* Foydalanuvchi ismi sarlavhasiga yon tomonlardan bo‘shliq */
-  }
-
-  .card {
-    margin: 0 auto; /* Kichik ekranlar uchun markazlashtirish */
-    width: 100%; /* Karta kengligini to‘liq qoplash */
-  }
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
 }
