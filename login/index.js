@@ -158,7 +158,7 @@ nextBtn.addEventListener("click", () => {
         u.username === usernameInput.value.trim() &&
         u.password === passwordInput.value.trim()
     );
-
+    
     if (user) {
       console.log("Login successful for:", user.username);
       nextBtn.classList.add("pulse");
@@ -191,11 +191,11 @@ function showError(message) {
   errorMessage.textContent = message;
   setTimeout(() => {
     errorMessage.textContent = "";
-  }, 300);
+  }, 3000);
 }
 function simulateLogin() {
   const username = usernameInput.value.trim();
-  const password = passwordInput.value.trim();  
+  const password = passwordInput.value.trim();
   setTimeout(() => {
     nextBtn.classList.remove("pulse");
 
@@ -230,10 +230,3 @@ document.addEventListener("mousemove", (e) => {
           )
       `;
 });
-
-const keyUp = (e) => {
-  if (e.key === "Enter") {
-    console.log(e.key);
-    
-  }
-}
