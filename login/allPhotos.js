@@ -84,7 +84,7 @@ if (users.length) {
             linear-gradient(
                 ${45 + x * 90}deg,
                 hsl(${180 + y * 60}, 70%, 60%),
-                hsl(${360 + x * 60}, 70%, 60%)
+                hsl(${360 + x * 90}, 70%, 60%)
             )
         `;
   });
