@@ -17,7 +17,7 @@ users.forEach((user) => {
         <div class="row row-cols-2 row-cols-sm-3 g-2 mt-2">
           ${user.photos.map(photo => `
             <div class="col">
-              <img src="${photo.url.trim()}" class="img-fluid rounded" alt="User photo" style="cursor: pointer;">
+              <img src="${photo.url.trim()}" class="img-fluid rounded" alt="User photo" style="cursor: pointer; height: 150px; width: 100%; object-fit: cover;">
             </div>
           `).join('')}
         </div>
