@@ -15,7 +15,7 @@ if (userData) {
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
           <p class="card-text">Likes: <span id="like-count-${index}">${photo.numberOfLikes}</span></p>
-          <button class="btn btn-danger mt-2" onclick="deletePhoto(${index})">Delete</button>
+          <button class="btn btn-danger mt-2" onclick="deletePhoto(${index})"><i class="fas fa-trash"></i></button>
         </div>
       </div>
     `
@@ -110,7 +110,7 @@ function addPhotoPrompt() {
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
           <p class="card-text">Likes: <span id="like-count-${photoIndex}">0</span></p>
-          <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})">Delete</button>
+          <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})"><i class="fas fa-trash"></i></button>
         </div>
       </div>
     `;
@@ -172,7 +172,7 @@ function addPhotoFromInput() {
     const newPhotoHTML = `
       <div id="photo-${photoIndex}" class="m-3 text-center">
         <img src="${newPhoto.url}" alt="photo" width="200px" class="img-thumbnail shadow" />
-        <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})">Delete</button>
+        <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})"><i class="fas fa-trash"></i></button>
       </div>
     `;
     container.innerHTML += newPhotoHTML;
