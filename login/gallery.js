@@ -138,3 +138,49 @@ document.addEventListener("mousemove", (e) => {
           )
       `;
 });
+
+function addPhotoPrompt() {
+  const addPhotoSection = document.getElementById("addPhotoSection");
+  addPhotoSection.style.display = "block";
+}
+
+
+function addPhotoFromInput() {
+  const photoInput = document.getElementById("photoInput");
+  const photoURL = photoInput.value.trim();
+
+  if (photoURL) {
+    const newPhoto = { url: photoURL };
+
+    // Foydalanuvchi ma'lumotlarini yangilash
+    const userData = JSON.parse(localStorage.getItem("user"));
+    userData.photos.push(newPhoto);
+    localStorage.setItem("user", JSON.stringify(userData)); // Yangilangan user ma'lumotlarini saqlash
+
+    // "users" massivini yangilash
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const updatedUsers = users.map((user) =>
+      user.username === userData.username
+        ? { ...user, photos: userData.photos }
+        : user
+    );
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    // HTML-ga yangi rasm qo'shish
+    const container = document.getElementById("container");
+    const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
+    const newPhotoHTML = `
+      <div id="photo-${photoIndex}" class="m-3 text-center">
+        <img src="${newPhoto.url}" alt="photo" width="200px" class="img-thumbnail shadow" />
+        <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})">Delete</button>
+      </div>
+    `;
+    container.innerHTML += newPhotoHTML;
+
+    // Inputni tozalash va yashirish
+    photoInput.value = "";
+    document.getElementById("addPhotoSection").style.display = "none";
+  } else {
+    alert("Please enter a valid photo URL.");
+  }
+}
