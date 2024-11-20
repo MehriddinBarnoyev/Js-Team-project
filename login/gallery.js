@@ -26,10 +26,10 @@ const renderPhotos = () => {
       (photo, index) => `
       <div id="photo-${index}" class="card " style="width: 18rem;">
         <img src="${photo.url.trim()}" class="card-img-top " alt="photo" style="height: 200px; object-fit: cover;">
-        <div class="card-body">
+        <div class="card-body" style="padding-top: 3px; padding-bottom: 10px;">
           <div class="d-flex justify-content-between align-items-center">
-            <p class="card-text">Likes: <span id="like-count-${index}">${photo.numberOfLikes || 0}</span></p>
-            <button class="btn like-btn" onclick="toggleLike(${index})" style="color: ${photo.isLiked ? "red" : "gray"};">
+            <p class="card-text mb-0" style="font-size: 18px;">Likes: <span id="like-count-${index}" style="font-weight: bold; font-size: 18px;">${photo.numberOfLikes || 0}</span></p>
+            <button class="btn btn-lg like-btn" onclick="toggleLike(${index})" style="color: ${photo.isLiked ? "red" : "gray"};">
               <i class="fas fa-heart"></i>
             </button>
           </div>
@@ -136,11 +136,10 @@ function addPhotoFromInput() {
     const newPhotoHTML = `
       <div id="photo-${photoIndex}" class="card " style="width: 18rem;">
         <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" style="height: 200px; object-fit: cover;">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
+        <div class="card-body" style="padding-top: 3px; padding-bottom: 10px;">
           <div class="d-flex justify-content-between align-items-center">
-            <p class="card-text">Likes: <span id="like-count-${photoIndex}">${newPhoto.numberOfLikes}</span></p>
-            <button class="btn like-btn" onclick="toggleLike(${photoIndex})" style="color: gray;">
+            <p class="card-text mb-0" style="font-size: 18px;">Likes: <span id="like-count-${photoIndex}" style="font-weight: bold; font-size: 18px;">${newPhoto.numberOfLikes}</span></p>
+            <button class="btn btn-lg like-btn" onclick="toggleLike(${photoIndex})" style="color: gray;">
               <i class="fas fa-heart"></i>
             </button>
           </div>

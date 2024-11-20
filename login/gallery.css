@@ -3,6 +3,7 @@ body{
   height: 100vh;
   align-items: center;
   overflow: hidden;
+  margin: 30px;
   background: linear-gradient(30deg, rgb(100, 241, 84), rgb(92, 92, 229), rgb(111, 30, 30));
 }
   
@@ -11,7 +12,6 @@ body{
     margin: 20px 0;
     text-align: left;
     font-size: 2rem;
-    color: #262626;
     padding-left: 20px;
   }
   
