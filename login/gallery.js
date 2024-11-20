@@ -1,186 +1,89 @@
-// Saqlangan foydalanuvchi ma'lumotini olish
-const userData = localStorage.getItem("user");
+// Saqlangan foydalanuvchi ma'lumotlarini olish va yangilash funksiyalari
+const getUserData = () => JSON.parse(localStorage.getItem("user")) || null;
+const setUserData = (data) => localStorage.setItem("user", JSON.stringify(data));
 
-if (userData) {
-  const userObject = JSON.parse(userData);
+// "users" ma'lumotlarini olish va yangilash
+const getAllUsers = () => JSON.parse(localStorage.getItem("users")) || [];
+const updateAllUsers = (updatedUser) => {
+  const users = getAllUsers().map((user) =>
+    user.username === updatedUser.username ? updatedUser : user
+  );
+  localStorage.setItem("users", JSON.stringify(users));
+};
 
-  console.log(userObject);
-  
-  // Har bir rasm uchun <img> va <button> yaratish
-  const imagesHTML = userObject.photos
-  .map(
-    (photo, index) => `
+// Rasmlar uchun UI elementlarini yaratish
+const renderPhotos = () => {
+  const userData = getUserData();
+  if (!userData) {
+    console.log("Foydalanuvchi ma'lumotlari topilmadi!");
+    return;
+  }
+
+  const container = document.getElementById("container");
+  container.innerHTML = userData.photos
+    .map(
+      (photo, index) => `
       <div id="photo-${index}" class="card" style="width: 18rem;">
         <img src="${photo.url.trim()}" class="card-img-top" alt="...">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Likes: <span id="like-count-${index}">${photo.numberOfLikes}</span></p>
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="card-text">Likes: <span id="like-count-${index}">${
+        photo.numberOfLikes || 0
+      }</span></p>
+            <button class="btn like-btn" onclick="toggleLike(${index})" style="color: ${
+        photo.isLiked ? "red" : "gray"
+      };"><i class="fas fa-heart"></i></button>
+          </div>
           <button class="btn btn-danger mt-2" onclick="deletePhoto(${index})"><i class="fas fa-trash"></i></button>
         </div>
       </div>
     `
-  )
-  .join("");
+    )
+    .join("");
+};
 
-  // Rasmni sahifaga joylash
-  const container = document.getElementById("container");
-  container.innerHTML = imagesHTML;
-} else {
-  console.log("Foydalanuvchi ma'lumotlari topilmadi!");
-}
-
-
-// Tugma bosilganda rasmni o‘chirish funksiyasi
-function deletePhoto(index) {
-  const userData = JSON.parse(localStorage.getItem("user")); // Foydalanuvchi ma'lumotini olish
-  const photoElement = document.getElementById(`photo-${index}`);
-
-  if (photoElement) {
-    // HTML-dan olib tashlash
-    photoElement.remove();
-
-    // Foydalanuvchining rasmlarini yangilash
-    userData.photos.splice(index, 1);
-    localStorage.setItem("user", JSON.stringify(userData)); // Yangilangan user ma'lumotlarini saqlash
-
-    // "users" massivini yangilash (faqat kirgan foydalanuvchiga tegishli rasmlar o‘zgartiriladi)
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const updatedUsers = users.map((user) =>
-      user.username === userData.username
-        ? { ...user, photos: userData.photos }
-        : user
-    ); 
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-  }
-}
-
-
-// Rasmga Like qo'shish yoki olib tashlash
+// Like tugmasi bosilganda yurak rangini o'zgartirish va like sonini yangilash
 function toggleLike(index) {
-  const userData = JSON.parse(localStorage.getItem("user"));
-
-  // Rasmga tegishli like sonini o'zgartirish
+  const userData = getUserData();
   const photo = userData.photos[index];
-  photo.numberOfLikes = photo.numberOfLikes === 0 ? 1 : 0; // Like sonini teskari qilish
 
-  // "users" massivini yangilash
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-  const updatedUsers = users.map((user) =>
-    user.username === userData.username
-      ? { ...user, photos: userData.photos }
-      : user
-  );
-  localStorage.setItem("users", JSON.stringify(updatedUsers));
+  // Like holatini teskari qilish
+  photo.isLiked = !photo.isLiked;
+  photo.numberOfLikes += photo.isLiked ? 1 : -1;
 
-  // Rasmga yangi like sonini ko'rsatish
-  const likeCountElement = document.getElementById(`like-count-${index}`);
-  likeCountElement.textContent = photo.numberOfLikes;
+  // Yangilangan ma'lumotlarni saqlash
+  setUserData(userData);
+  updateAllUsers(userData);
+
+  // UI yangilash
+  const likeButton = document.querySelector(`#photo-${index} .like-btn`);
+  const likeCount = document.getElementById(`like-count-${index}`);
+
+  likeButton.style.color = photo.isLiked ? "red" : "gray";
+  likeCount.textContent = photo.numberOfLikes;
 }
 
+// Rasmni o'chirish
+function deletePhoto(index) {
+  const userData = getUserData();
+  userData.photos.splice(index, 1);
 
-// Rasm URL kiritish funksiyasi
-function addPhotoPrompt() {
-  const photoURL = prompt("Please enter the URL of the photo:");
-  if (photoURL) {
-    const newPhoto = { url: photoURL.trim() }; // Yangi rasm obyekti
+  setUserData(userData);
+  updateAllUsers(userData);
 
-    // Foydalanuvchi ma'lumotlarini yangilash
-    const userData = JSON.parse(localStorage.getItem("user"));
-    userData.photos.push(newPhoto);
-    localStorage.setItem("user", JSON.stringify(userData)); // Yangilangan user ma'lumotlarini saqlash
-
-    // "users" massivini yangilash
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const updatedUsers = users.map((user) =>
-      user.username === userData.username
-        ? { ...user, photos: userData.photos }
-        : user
-    );
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-
-    // HTML-ga yangi rasm qo'shish
-    const container = document.getElementById("container");
-    const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
-    const newPhotoHTML = `
-      
-      
-
-      <div id="photo-${photoIndex}" class="card" style="width: 18rem;">
-        <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" />
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Likes: <span id="like-count-${photoIndex}">0</span></p>
-          <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})"><i class="fas fa-trash"></i></button>
-        </div>
-      </div>
-    `;
-    container.innerHTML += newPhotoHTML;
-  }
+  renderPhotos();
 }
 
-// "All photos" sahifasiga o'tish funksiyasi
-function allPhotoLink() {
-  window.location.href = "allPhotos.html"; // Sahifani o'zgartirish
+// Yangi rasm qo'shish
+function addPhoto(photoURL) {
+  const userData = getUserData();
+  userData.photos.push({ url: photoURL.trim(), numberOfLikes: 0, isLiked: false });
+
+  setUserData(userData);
+  updateAllUsers(userData);
+
+  renderPhotos();
 }
 
-
-// Input fayl hodisasiga quloq solish
-document.getElementById("fileInput").addEventListener("change", addPhoto);
-document.addEventListener("mousemove", (e) => {
-  const x = e.clientX / window.innerWidth;
-  const y = e.clientY / window.innerHeight;
-
-  document.body.style.background = `
-          linear-gradient(
-              ${45 + x * 90}deg,
-              hsl(${180 + y * 60}, 70%, 60%),
-              hsl(${360 + x * 60}, 70%, 60%)
-          )
-      `;
-});
-
-function addPhotoPrompt() {
-  const addPhotoSection = document.getElementById("addPhotoSection");
-  addPhotoSection.style.display = "block";
-}
-
-
-function addPhotoFromInput() {
-  const photoInput = document.getElementById("photoInput");
-  const photoURL = photoInput.value.trim();
-
-  if (photoURL) {
-    const newPhoto = { url: photoURL };
-
-    // Foydalanuvchi ma'lumotlarini yangilash
-    const userData = JSON.parse(localStorage.getItem("user"));
-    userData.photos.push(newPhoto);
-    localStorage.setItem("user", JSON.stringify(userData)); // Yangilangan user ma'lumotlarini saqlash
-
-    // "users" massivini yangilash
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const updatedUsers = users.map((user) =>
-      user.username === userData.username
-        ? { ...user, photos: userData.photos }
-        : user
-    );
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-
-    // HTML-ga yangi rasm qo'shish
-    const container = document.getElementById("container");
-    const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
-    const newPhotoHTML = `
-      <div id="photo-${photoIndex}" class="m-3 text-center">
-        <img src="${newPhoto.url}" alt="photo" width="200px" class="img-thumbnail shadow" />
-        <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})"><i class="fas fa-trash"></i></button>
-      </div>
-    `;
-    container.innerHTML += newPhotoHTML;
-
-    // Inputni tozalash va yashirish
-    photoInput.value = "";
-    document.getElementById("addPhotoSection").style.display = "none";
-  } else {
-    alert("Please enter a valid photo URL.");
-  }
-}
+// Sahifa yuklanganda rasmlarni render qilish
+document.addEventListener("DOMContentLoaded", renderPhotos);
