@@ -158,7 +158,7 @@ nextBtn.addEventListener("click", () => {
         u.username === usernameInput.value.trim() &&
         u.password === passwordInput.value.trim()
     );
-
+    
     if (user) {
       console.log("Login successful for:", user.username);
       nextBtn.classList.add("pulse");
@@ -216,8 +216,6 @@ function simulateLogin() {
     }
   }, 10);
 }
-
-
 
 // Dynamic background
 document.addEventListener("mousemove", (e) => {
