@@ -24,7 +24,7 @@ const renderPhotos = () => {
     .map(
       (photo, index) => `
       <div id="photo-${index}" class="card" style="width: 18rem;">
-        <img src="${photo.url.trim()}" class="card-img-top" alt="...">
+        <img src="${photo.url.trim()}" class="card-img-top" alt="..." style="height: 200px; object-fit: cover;">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
             <p class="card-text">Likes: <span id="like-count-${index}">${
@@ -41,6 +41,7 @@ const renderPhotos = () => {
     )
     .join("");
 };
+
 
 // Like tugmasi bosilganda yurak rangini o'zgartirish va like sonini yangilash
 function toggleLike(index) {
@@ -83,6 +84,10 @@ function addPhoto(photoURL) {
   updateAllUsers(userData);
 
   renderPhotos();
+}
+
+const allPhotoLink = () =>{
+  window.location.href = "allPhotos.html";
 }
 
 // Sahifa yuklanganda rasmlarni render qilish
