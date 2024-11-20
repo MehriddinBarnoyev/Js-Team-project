@@ -11,7 +11,7 @@ if (userData) {
   .map(
     (photo, index) => `
       <div id="photo-${index}" class="card" style="width: 18rem;">
-        <img src="${photo.url.trim()}" class="card-img-top" alt="...">
+        <img src="${photo.url.trim()}" class="card-img-top" alt="photo" style="height: 200px; object-fit: cover;">
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
           <p class="card-text">Likes: <span id="like-count-${index}">${photo.numberOfLikes}</span></p>
@@ -103,7 +103,7 @@ function addPhotoPrompt() {
     const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
     const newPhotoHTML = `
       <div id="photo-${photoIndex}" class="card" style="width: 18rem;">
-        <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" />
+        <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" style="height: 200px; object-fit: cover;">
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
           <p class="card-text">Likes: <span id="like-count-${photoIndex}">0</span></p>
