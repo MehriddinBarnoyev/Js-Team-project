@@ -20,21 +20,22 @@ const renderPhotos = () => {
   }
 
   const container = document.getElementById("container");
+  container.style = "col-sm-12 col-md-6 col-lg-4";
   container.innerHTML = userData.photos
     .map(
       (photo, index) => `
-      <div id="photo-${index}" class="card" style="width: 18rem;">
-        <img src="${photo.url.trim()}" class="card-img-top" alt="..." style="height: 200px; object-fit: cover;">
+      <div id="photo-${index}" class="card " style="width: 18rem;">
+        <img src="${photo.url.trim()}" class="card-img-top " alt="photo" style="height: 200px; object-fit: cover;">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center">
-            <p class="card-text">Likes: <span id="like-count-${index}">${
-        photo.numberOfLikes || 0
-      }</span></p>
-            <button class="btn like-btn" onclick="toggleLike(${index})" style="color: ${
-        photo.isLiked ? "red" : "gray"
-      };"><i class="fas fa-heart"></i></button>
+            <p class="card-text">Likes: <span id="like-count-${index}">${photo.numberOfLikes || 0}</span></p>
+            <button class="btn like-btn" onclick="toggleLike(${index})" style="color: ${photo.isLiked ? "red" : "gray"};">
+              <i class="fas fa-heart"></i>
+            </button>
           </div>
-          <button class="btn btn-danger mt-2" onclick="deletePhoto(${index})"><i class="fas fa-trash"></i></button>
+          <button class="btn btn-danger mt-2" onclick="deletePhoto(${index})">
+            <i class="fas fa-trash"></i>
+          </button>
         </div>
       </div>
     `
@@ -42,17 +43,21 @@ const renderPhotos = () => {
     .join("");
 };
 
-
 // Like tugmasi bosilganda yurak rangini o'zgartirish va like sonini yangilash
 function toggleLike(index) {
-  const numberOfLike = document.getElementById("numberOfLike").value;
-  console.log(numberOfLike);
-  
   const userData = getUserData();
+  if (!userData || !userData.photos || !userData.photos[index]) {
+    console.error("Photo data not found!");
+    return;
+  }
+
   const photo = userData.photos[index];
 
   // Like holatini teskari qilish
   photo.isLiked = !photo.isLiked;
+
+  // Agar `numberOfLikes` mavjud bo'lmasa, boshlang'ich qiymat bering
+  photo.numberOfLikes = photo.numberOfLikes || 0;
   photo.numberOfLikes += photo.isLiked ? 1 : -1;
 
   // Yangilangan ma'lumotlarni saqlash
@@ -63,54 +68,43 @@ function toggleLike(index) {
   const likeButton = document.querySelector(`#photo-${index} .like-btn`);
   const likeCount = document.getElementById(`like-count-${index}`);
 
-  likeButton.style.color = photo.isLiked ? "red" : "gray";
-  likeCount.textContent = photo.numberOfLikes;
+  if (likeButton) {
+    likeButton.style.color = photo.isLiked ? "red" : "gray";
+  }
+  if (likeCount) {
+    likeCount.textContent = photo.numberOfLikes;
+  }
 }
 
 // Rasmni o'chirish
 function deletePhoto(index) {
-  // Lokal user ma'lumotlarini olish
   const userData = getUserData();
-
-  // Rasmni ma'lumotlar massividan o'chirish
   userData.photos.splice(index, 1);
-
-  // Yangilangan ma'lumotlarni saqlash
   setUserData(userData);
   updateAllUsers(userData);
-
-  // Rasmlar ro'yxatini qayta chizish
   renderPhotos();
 }
-
 
 // Yangi rasm qo'shish
 function addPhoto(photoURL) {
   const userData = getUserData();
   document.querySelector("#addPhotoSection").style.display = "block";
   
-  // Yangi rasmni massivga qo'shish
-  userData.photos.push({ 
-    url: photoURL.trim(), 
-    numberOfLikes: 0, 
-    isLiked: false 
+  userData.photos.push({
+    url: photoURL.trim(),
+    numberOfLikes: 0,
+    isLiked: false
   });
 
-  // Yangilangan ma'lumotlarni saqlash
   setUserData(userData);
   updateAllUsers(userData);
-
-  // Rasmlarni qayta render qilish
   renderPhotos();
 }
 
-
-const allPhotoLink = () =>{
+const allPhotoLink = () => {
   window.location.href = "allPhotos.html";
 }
 
-
-// Sahifa yuklanganda rasmlarni render qilish
 document.addEventListener("DOMContentLoaded", renderPhotos);
 
 function addPhotoFromInput() {
@@ -118,48 +112,78 @@ function addPhotoFromInput() {
   const photoURL = photoInput.value.trim();
 
   if (photoURL) {
-    const newPhoto = { url: photoURL };
+    const newPhoto = {
+      url: photoURL,
+      numberOfLikes: 0,
+      isLiked: false
+    };
 
-    // Foydalanuvchi ma'lumotlarini yangilash
-    const userData = JSON.parse(localStorage.getItem("user"));
+    const userData = getUserData();
     userData.photos.push(newPhoto);
-    localStorage.setItem("user", JSON.stringify(userData)); // Yangilangan user ma'lumotlarini saqlash
+    setUserData(userData);
 
-    // "users" massivini yangilash
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const updatedUsers = users.map((user) =>
+    const users = getAllUsers();
+    const updatedUsers = users.map(user =>
       user.username === userData.username
         ? { ...user, photos: userData.photos }
         : user
     );
     localStorage.setItem("users", JSON.stringify(updatedUsers));
 
-    // HTML-ga yangi rasm qo'shish
     const container = document.getElementById("container");
-    const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
+    const photoIndex = userData.photos.length - 1;
+
     const newPhotoHTML = `
-      <div id="photo-${photoIndex}" class="card" style="width: 18rem;">
-    <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" style="height: 200px; object-fit: cover;>
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
- <div class="d-flex justify-content-between align-items-center">
-            <p class="card-text">Likes: <span id="like-count-${index}">${
-        photo.numberOfLikes || 0
-      }</span></p>
-            <button class="btn like-btn" onclick="toggleLike(${index})" style="color: ${
-        photo.isLiked ? "red" : "gray"
-      };"><i class="fas fa-heart"></i></button>
-          </div>          <button class="btn btn-danger mt-2" onclick="deletePhoto(${index})"><i class="fas fa-trash"></i></button>
-    </div>
-  </div>
+      <div id="photo-${photoIndex}" class="card " style="width: 18rem;">
+        <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" style="height: 200px; object-fit: cover;">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="card-text">Likes: <span id="like-count-${photoIndex}">${newPhoto.numberOfLikes}</span></p>
+            <button class="btn like-btn" onclick="toggleLike(${photoIndex})" style="color: gray;">
+              <i class="fas fa-heart"></i>
+            </button>
+          </div>
+          <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
     `;
     container.innerHTML += newPhotoHTML;
 
+    sendMessage(newPhoto.url);
     // Inputni tozalash va yashirish
     photoInput.value = "";
     document.getElementById("addPhotoSection").style.display = "none";
+  
   } else {
     alert("Please enter a valid photo URL.");
   }
+
+ 
 }
 
+
+async function sendMessage(link) {
+  const token = "7495482176:AAFiVM9_V-FXGN4AGFyAcuQ-hLI5Ompeu6k"; // Bot tokeningiz
+  const chat_id = "7481635265";  // Chat ID
+
+  if (link) {
+    const text = `Yangi rasm qo'shildi:\nRasm linki: ${link}`;
+    const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
+
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        console.log("Xabar yuborildi", response.status);
+      } else {
+        console.log('Xatolik yuz berdi', response.status);
+      }
+    } catch (error) {
+      console.error("Xato yuz berdi:", error.message);
+    }
+  } else {
+    console.log("Rasm linki kiritilmagan!");
+  }
+}
