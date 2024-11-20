@@ -45,7 +45,49 @@ function deletePhoto(index) {
   }
 }
 
+
+
+// Rasm qo‘shish funksiyasi
+function addPhoto(event) {
+  const file = event.target.files[0]; // Faylni olish
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const newPhoto = { url: e.target.result }; // Yangi rasm obyekti
+
+      // Foydalanuvchi ma'lumotlarini yangilash
+      const userData = JSON.parse(localStorage.getItem("user"));
+      userData.photos.push(newPhoto);
+      localStorage.setItem("user", JSON.stringify(userData)); // Yangilangan user ma'lumotlarini saqlash
+
+      // "users" massivini yangilash
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      const updatedUsers = users.map((user) =>
+        user.username === userData.username ? { ...user, photos: userData.photos } : user
+      );
+      localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+      // HTML-ga yangi rasm qo'shish
+      const container = document.getElementById("container");
+      const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
+      const newPhotoHTML = `
+        <div id="photo-${photoIndex}" class="m-3 text-center">
+          <img src="${newPhoto.url}" alt="photo" width="200px" class="img-thumbnail shadow" />
+          <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})">Delete</button>
+        </div>
+      `;
+      container.innerHTML += newPhotoHTML;
+    };
+    reader.readAsDataURL(file); // Faylni o'qish va base64 formatga aylantirish
+  }
+}
+
+
 // "All photos" sahifasiga o'tish funksiyasi
 function allPhotoLink() {
   window.location.href = "allPhotos.html"; // Sahifani o'zgartirish
 }
+
+
+// Input fayl hodisasiga quloq solish
+document.getElementById("fileInput").addEventListener("change", addPhoto);
