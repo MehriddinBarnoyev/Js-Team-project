@@ -10,9 +10,13 @@ if (userData) {
   const imagesHTML = userObject.photos
   .map(
     (photo, index) => `
-      <div id="photo-${index}" class="m-3 text-center">
-        <img src="${photo.url.trim()}" alt="photo" width="200px" class="img-thumbnail shadow" />
-        <button class="btn btn-danger mt-2" onclick="deletePhoto(${index})">Delete</button>
+      <div id="photo-${index}" class="card" style="width: 18rem;">
+        <img src="${photo.url.trim()}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Likes: <span id="like-count-${index}">${photo.numberOfLikes}</span></p>
+          <button class="btn btn-danger mt-2" onclick="deletePhoto(${index})">Delete</button>
+        </div>
       </div>
     `
   )
@@ -51,6 +55,28 @@ function deletePhoto(index) {
 }
 
 
+// Rasmga Like qo'shish yoki olib tashlash
+function toggleLike(index) {
+  const userData = JSON.parse(localStorage.getItem("user"));
+
+  // Rasmga tegishli like sonini o'zgartirish
+  const photo = userData.photos[index];
+  photo.numberOfLikes = photo.numberOfLikes === 0 ? 1 : 0; // Like sonini teskari qilish
+
+  // "users" massivini yangilash
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const updatedUsers = users.map((user) =>
+    user.username === userData.username
+      ? { ...user, photos: userData.photos }
+      : user
+  );
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+  // Rasmga yangi like sonini ko'rsatish
+  const likeCountElement = document.getElementById(`like-count-${index}`);
+  likeCountElement.textContent = photo.numberOfLikes;
+}
+
 
 // Rasm URL kiritish funksiyasi
 function addPhotoPrompt() {
@@ -76,9 +102,16 @@ function addPhotoPrompt() {
     const container = document.getElementById("container");
     const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
     const newPhotoHTML = `
-      <div id="photo-${photoIndex}" class="m-3 text-center">
-        <img src="${newPhoto.url}" alt="photo" width="200px" class="img-thumbnail shadow" />
-        <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})">Delete</button>
+      
+      
+
+      <div id="photo-${photoIndex}" class="card" style="width: 18rem;">
+        <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" />
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Likes: <span id="like-count-${photoIndex}">0</span></p>
+          <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})">Delete</button>
+        </div>
       </div>
     `;
     container.innerHTML += newPhotoHTML;
