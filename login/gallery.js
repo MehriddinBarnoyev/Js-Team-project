@@ -102,9 +102,6 @@ function addPhotoPrompt() {
     const container = document.getElementById("container");
     const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
     const newPhotoHTML = `
-      
-      
-
       <div id="photo-${photoIndex}" class="card" style="width: 18rem;">
         <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" />
         <div class="card-body">
@@ -170,10 +167,14 @@ function addPhotoFromInput() {
     const container = document.getElementById("container");
     const photoIndex = userData.photos.length - 1; // Yangi rasmning indeksi
     const newPhotoHTML = `
-      <div id="photo-${photoIndex}" class="m-3 text-center">
-        <img src="${newPhoto.url}" alt="photo" width="200px" class="img-thumbnail shadow" />
-        <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})"><i class="fas fa-trash"></i></button>
-      </div>
+      <div id="photo-${photoIndex}" class="card" style="width: 18rem;">
+    <img src="${newPhoto.url}" class="card-img-top" alt="photo" onclick="toggleLike(${photoIndex})" />
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Likes: <span id="like-count-${photoIndex}">0</span></p>
+      <button class="btn btn-danger mt-2" onclick="deletePhoto(${photoIndex})"><i class="fas fa-trash"></i></button>
+    </div>
+  </div>
     `;
     container.innerHTML += newPhotoHTML;
 
